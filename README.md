@@ -4,17 +4,17 @@ An easy-to-use Entity Component System (ECS) library written in Jai. This librar
 
 ## Features
 
-- *Entity Management:* Create, delete, and manage entities effortlessly.
+- **Entity Management:** Create, delete, and manage entities effortlessly.
 
-- *Component Management:* Add, remove, and retrieve components attached to entities.
+- **Component Management:** Add, remove, and retrieve components attached to entities.
+
+- **Systems:** A robust system for defining and executing game logic across entities and components.
+
+- **Iterators:** Seamless iteration over entities and components for efficient processing.
 
 ## Upcoming Features
 
 - *Efficient Storage:* Optimized data storage for components to ensure fast access and minimal overhead.
-
-- *Iterators:* Seamless iteration over entities and components for efficient processing.
-
-- *Systems:* A robust system for defining and executing game logic across entities and components.
 
 ## Usage
 
@@ -44,7 +44,6 @@ Health   :: #comp float;
 
 init_components(Player, Position, Health);
 ```
-OR
 ```odin
 Position :: #comp Vector2;
 Position :: #component Vector2;
@@ -57,6 +56,29 @@ Position :: #type,distinct Vector2;
 e := create_entity();
 entity_add(e, .Player); // zero sized
 entity_add(e, Position.{0, 0});
+```
+
+### Add Systems
+
+```odin
+run_system(.Position, (ent: Entity) {
+    print("%\n", ent);
+});
+
+func :: (ent: Entity) {
+    pos := entity_get(e, _Position);
+    print("%: %\n", e, pos);
+}
+
+run_system(.Position, func); // all entities that have Position
+
+run_system_once(.Position, func); // first entity that have Position
+
+run_system(e, func); // run func on entity e
+
+run_system(.[e1, e2, e3], func); // run func on entities
+
+run_system(func);  // run func on all entities
 ```
 
 ### Example
@@ -78,13 +100,16 @@ main :: () {
 
     entity_add(e, .Player);
     entity_add(e, Position.{0, 0});
-    assert(entity_have(e, .Position));
 
-    entity_add(e, Velocity.{1, 2});
-    assert(entity_have_all(e, .Position, .Velocity));
+    e1 := create_entity();
+    entity_add(e1, Velocity.{1, 2});
 
-    entity_remove(e, .Velocity);
-    assert(entity_have_any(e, .Position, .Health));
+    e2 := create_entity();
+    entity_add(e2, Position.{1, 2});
+
+    run_system(.Position, (ent: Entity) {
+        print("%\n", entity_get(ent, _Position));
+    });
 }
 ```
 

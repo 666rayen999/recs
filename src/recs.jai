@@ -14,7 +14,7 @@ else #if MAX_ENTITIES < (1 << 16) Entity :: u16;
 else #if MAX_ENTITIES < (1 << 32) Entity :: u32;
 else Entity :: u64;
 
-init_recs :: (max_entities := 1000, max_components := 30, assert := true) -> string {
+init_recs :: inline (max_entities := 1000, max_components := 30, assert := true) -> string {
     b: String_Builder;
     init_string_builder(*b);
     defer reset(*b);
@@ -26,7 +26,7 @@ init_recs :: (max_entities := 1000, max_components := 30, assert := true) -> str
     return builder_to_string(*b);
 }
 
-init_components :: ($types: ..Type) -> string {
+init_components :: inline ($types: ..Type) -> string {
     assert(is_constant(types));
     assert(types.count <= MAX_COMPONENTS);
 
@@ -146,3 +146,26 @@ entity_get :: inline (entity: Entity) -> Component {
     #if RECS_ASSERT assert(entities.count < MAX_ENTITIES);
     return entities[entity];
 }
+
+run_system :: inline (q: Component, fn: (Entity)) {
+    for entities if (it & q) == q fn(xx it_index);
+}
+
+run_system :: inline (fn: (Entity)) {
+    e: Entity = 0;
+    while e < entities.count {
+        fn(e);
+        e += 1;
+    }
+}
+
+run_system_once :: inline (q: Component, fn: (Entity)) {
+    for entities if (it & q) == q {
+        fn(xx it_index);
+        break;
+    }
+}
+
+run_system :: inline (e: Entity, fn: (Entity)) { fn(e); }
+
+run_system :: inline (e: []Entity, fn: (Entity)) { for e fn(it); }

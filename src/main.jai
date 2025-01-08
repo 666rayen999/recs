@@ -15,13 +15,16 @@ main :: () {
     e := create_entity();
 
     entity_add(e, .Player);
-    entity_add(e, Position.{0, 0}); // add component to entity
-    assert(entity_have(e, .Position)); // check if it have component
+    entity_add(e, Position.{0, 0});
 
-    entity_add(e, Velocity.{1, 2});
-    assert(entity_have_all(e, .Position, .Velocity)); // check if it have all components
+    e1 := create_entity();
+    entity_add(e1, Velocity.{1, 2});
 
-    entity_remove(e, .Velocity);
-    assert(entity_have_any(e, .Position, .Health)); // check if it have any component
+    e2 := create_entity();
+    entity_add(e2, Position.{1, 2});
+
+    run_system(.Position, (ent: Entity) {
+        print("%\n", entity_get(ent, _Position));
+    });
 }
 
