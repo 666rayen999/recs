@@ -39,12 +39,12 @@
         assert(a != -1 && b != -1);
 
         if a < b {
-            ok, left, right = split_from_left(right, "::");
+            ok, left, right = split_from_left(right, #char ":");
             assert(ok);
             append(*m, left);
             append(*m, ":: #type,distinct ");
         } else {
-            ok, left, right = split_from_left(right, ";");
+            ok, left, right = split_from_left(right, #char ";");
             assert(ok);
             append(*m, left);
             append(*m, ":: #type,distinct void;");

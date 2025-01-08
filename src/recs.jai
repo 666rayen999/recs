@@ -91,8 +91,14 @@ remove_entity :: inline (entity: Entity) {
 
 entity_add :: inline (entity: Entity, component: $T) {
     #if RECS_ASSERT assert(entity < entities.count);
+    #assert size_of(T) > 0;
     entities[entity] |= type_get_component(component);
     type_update_buffer(component, entity);
+}
+
+entity_add :: inline (entity: Entity, component: Component) {
+    #if RECS_ASSERT assert(entity < entities.count);
+    entities[entity] |= component;
 }
 
 entity_update :: inline (entity: Entity, component: $T) {

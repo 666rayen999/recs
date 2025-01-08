@@ -5,9 +5,9 @@
 
 // init comps
 #comp Player;
-#comp Position :: Vector2;
-#comp Velocity :: Vector2;
-#comp Health   :: float32;
+#comp Position : Vector2;
+#comp Velocity : Vector2;
+#comp Health   : float32;
 
 #init_components(Player, Position, Velocity, Health);
 
@@ -15,6 +15,7 @@
 main :: () {
     e := create_entity();
 
+    entity_add(e, .Player);
     entity_add(e, Position.{0, 0}); // add component to entity
     assert(entity_have(e, .Position)); // check if it have component
 
