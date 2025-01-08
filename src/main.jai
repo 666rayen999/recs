@@ -1,15 +1,14 @@
-#recs; // import the library library
 #import "Math";
 
-#init_recs(max_entities = 4, max_components = 10); // set max entities and max components
+init_recs(); // set max entities and max components
 
 // init comps
-#comp Player;
-#comp Position : Vector2;
-#comp Velocity : Vector2;
-#comp Health   : float32;
+Player   :: #comp void;
+Position :: #comp Vector2;
+Velocity :: #comp Vector2;
+Health   :: #comp float32;
 
-#init_components(Player, Position, Velocity, Health);
+init_components(Player, Position, Velocity, Health);
 
 // start da big
 main :: () {

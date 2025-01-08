@@ -28,31 +28,27 @@ Edit the `src/main.jai`
 ### Import the library + Init
 
 ```odin
-#recs;
-#init_recs(max_entities = 4, max_components = 10); // set max entities and max components
-```
-OR
-```odin
-#recs;
-#insert #run init_recs(max_entities = 4, max_components = 10); // set max entities and max components
+// set max entities and max components
+init_recs(max_entities = 4, max_components = 10);
 ```
 
 ### Add Components
 
 ```odin
-#comp Player; // zero sized component
-#comp Position : Vector2;
-#comp Health   : float;
+Player   :: #comp void; // zero sized component
+Position :: #comp struct {
+    x: float;
+    y: float;
+};
+Health   :: #comp float;
 
-#init_components(Player, Position, Health);
+init_components(Player, Position, Health);
 ```
 OR
 ```odin
-Player   :: #type,distinct void; // zero sized component
+Position :: #comp Vector2;
+Position :: #component Vector2;
 Position :: #type,distinct Vector2;
-Health   :: #type,distinct float;
-
-#insert #run init_components(Player, Position, Health);
 ```
 
 ### Add Entities
@@ -66,17 +62,16 @@ entity_add(e, Position.{0, 0});
 ### Example
 
 ```odin
-#recs;
 #import "Math";
 
-#init_recs();
+init_recs();
 
-#comp Player;
-#comp Position : Vector2;
-#comp Velocity : Vector2;
-#comp Health   : float32;
+Player   :: #comp void;
+Position :: #comp Vector2;
+Velocity :: #comp Vector2;
+Health   :: #comp float32;
 
-#init_components(Player, Position, Velocity, Health);
+init_components(Player, Position, Velocity, Health);
 
 main :: () {
     e := create_entity();
