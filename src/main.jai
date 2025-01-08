@@ -1,15 +1,17 @@
-#load "recs.jai";
+#recs; // import the library library
 #import "Math";
 
-#insert #run init_recs(max_entities = 4, max_components = 10);
+#init_recs(max_entities = 4, max_components = 10); // set max entities and max components
 
-Player   :: #type,distinct void;
-Position :: #type,distinct Vector2;
-Velocity :: #type,distinct Vector2;
-Health   :: #type,distinct float32;
+// init comps
+#comp Player;
+#comp Position :: Vector2;
+#comp Velocity :: Vector2;
+#comp Health   :: float32;
 
-#insert #run init_components(Player, Position, Velocity, Health);
+#init_components(Player, Position, Velocity, Health);
 
+// start da big
 main :: () {
     e := create_entity();
 
