@@ -29,25 +29,25 @@ Edit the `src/main.jai`
 
 ```odin
 // set max entities and max components
-init_recs(max_entities = 4, max_components = 10);
+@init_recs(max_entities = 4, max_components = 10);
 ```
 
 ### Add Components
 
 ```odin
-Player   :: #comp void; // zero sized component
-Position :: #comp struct {
+Player   :: @comp void; // zero sized component
+UI       :: @comp(); // zero sized component
+Position :: @comp struct {
     x: float;
     y: float;
 };
-Health   :: #comp float;
+Health   :: @comp float;
 
-init_components(Player, Position, Health);
+@init_components(Player, Position, Health);
 ```
 ```odin
-Position :: #comp Vector2;
-Position :: #component Vector2;
-Position :: #type,distinct Vector2;
+Position :: @comp Vector2;
+Position :: @component Vector2;
 ```
 
 ### Add Entities
@@ -96,13 +96,13 @@ for iter_entities(.Position | .Velocity) {
 ```odin
 #import "Math";
 
-init_recs();
+@init_recs();
 
-Print    :: #comp void;
-Position :: #comp Vector2;
-Velocity :: #comp Vector2;
+Print    :: @comp void;
+Position :: @comp Vector2;
+Velocity :: @comp Vector2;
 
-init_components(Print, Position, Velocity);
+@init_components(Print, Position, Velocity);
 
 printing_system :: inline (e: Entity) {
     pos := entity_get(e, _Position);

@@ -19,10 +19,12 @@
     main, ok := read_entire_file("src/main.jai");
     assert(ok, "main.jai not found!");
 
-    main = replace(main, "init_recs(", "#insert #run init_recs(");
-    main = replace(main, "init_components(", "#insert #run init_components(");
-    main = replace(main, "#component", "#type,distinct");
-    main = replace(main, "#comp", "#type,distinct");
+    main = replace(main, "@init_recs(", "#insert #run init_recs(");
+    main = replace(main, "@init_components(", "#insert #run init_components(");
+    main = replace(main, "@component()", "#type,distinct void");
+    main = replace(main, "@comp()", "#type,distinct void");
+    main = replace(main, "@component", "#type,distinct");
+    main = replace(main, "@comp", "#type,distinct");
 
     add_build_string(main, w);
     add_build_file("src/recs.jai", w);
