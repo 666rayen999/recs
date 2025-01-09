@@ -88,28 +88,49 @@ run_system(func);  // run func on all entities
 
 init_recs();
 
-Player   :: #comp void;
+Print    :: #comp void;
 Position :: #comp Vector2;
 Velocity :: #comp Vector2;
-Health   :: #comp float32;
 
-init_components(Player, Position, Velocity, Health);
+init_components(Print, Position, Velocity);
+
+printing_system :: inline (e: Entity) {
+    pos := entity_get(e, _Position);
+    print("%\n", pos);
+}
+
+movement_system :: inline (e: Entity) {
+    pos := entity_get(e, _Position);
+    vel := entity_get(e, _Velocity);
+    pos.x += vel.x;
+    pos.y += vel.y;
+    entity_update(e, pos);
+}
 
 main :: () {
     e := create_entity();
 
-    entity_add(e, .Player);
-    entity_add(e, Position.{0, 0});
+    entity_add(e, Position.{});
+    entity_add(e, Velocity.{1, 0});
+    entity_add(e, .Print);
 
-    e1 := create_entity();
-    entity_add(e1, Velocity.{1, 2});
+    e = create_entity();
 
-    e2 := create_entity();
-    entity_add(e2, Position.{1, 2});
+    entity_add(e, Position.{});
+    entity_add(e, Velocity.{0, 1});
+    entity_add(e, .Print);
 
-    run_system(.Position, (ent: Entity) {
-        print("%\n", entity_get(ent, _Position));
-    });
+    e = create_entity();
+
+    entity_add(e, Position.{});
+    entity_add(e, .Print);
+
+    for 0..3 {
+        print("frame %:\n", it);
+        run_system(.Position | .Velocity, movement_system);
+        run_system(.Position | .Print, printing_system);
+        print("\n");
+    }
 }
 ```
 
