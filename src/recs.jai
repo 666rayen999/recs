@@ -147,11 +147,11 @@ entity_get :: inline (entity: Entity) -> Component {
     return entities[entity];
 }
 
-run_system :: inline (q: Component, fn: (Entity)) {
+run_system :: inline (q: Component, $fn: (Entity)) {
     for entities if (it & q) == q fn(xx it_index);
 }
 
-run_system :: inline (fn: (Entity)) {
+run_system :: inline ($fn: (Entity)) {
     e: Entity = 0;
     while e < entities.count {
         fn(e);
@@ -159,13 +159,37 @@ run_system :: inline (fn: (Entity)) {
     }
 }
 
-run_system_once :: inline (q: Component, fn: (Entity)) {
+run_system_once :: inline (q: Component, $fn: (Entity)) {
     for entities if (it & q) == q {
         fn(xx it_index);
         break;
     }
 }
 
-run_system :: inline (e: Entity, fn: (Entity)) { fn(e); }
+run_system :: inline (e: Entity, $fn: (Entity)) { fn(e); }
 
-run_system :: inline (e: []Entity, fn: (Entity)) { for e fn(it); }
+run_system :: inline (e: []Entity, $fn: (Entity)) { for e fn(it); }
+
+Entities :: struct { c: Component; };
+
+iter_entities :: inline (components: ..Component) -> Entities {
+    e : Entities = .{0};
+    for components e.c |= it;
+    return e;
+}
+
+for_expansion :: (iter: Entities, body: Code, flags: For_Flags) #expand {
+    #assert flags == 0;
+
+    index := 0;
+    c := iter.c;
+
+    for e, i: entities if (e & c) == c {
+        `it : Entity = xx i;
+        `it_index := index;
+
+        #insert body;
+
+        index += 1;
+    }
+}

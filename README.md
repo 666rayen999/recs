@@ -81,6 +81,16 @@ run_system(.[e1, e2, e3], func); // run func on entities
 run_system(func);  // run func on all entities
 ```
 
+### Iterators
+
+```odin
+for iter_entities(.Position | .Velocity) {
+    pos := entity_get(it, _Position);
+    vel := entity_get(it, _Velocity);
+    print("% + %\n", pos, vel);
+}
+```
+
 ### Example
 
 ```odin
@@ -130,6 +140,10 @@ main :: () {
         run_system(.Position | .Velocity, movement_system);
         run_system(.Position | .Print, printing_system);
         print("\n");
+    }
+
+    for iter_entities(.Position) {
+        entity_update(it, Position.{});
     }
 }
 ```

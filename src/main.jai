@@ -26,5 +26,9 @@ main :: () {
     run_system(.Position, (ent: Entity) {
         print("%\n", entity_get(ent, _Position));
     });
+
+    for iter_entities(.Position) {
+        print("%\n", entity_get(it, _Position));
+    }
 }
 
