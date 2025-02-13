@@ -2,6 +2,12 @@
 
 An easy-to-use Entity Component System (ECS) library written in Jai. This library provides a simple and efficient foundation for managing entities, components, and systems in your game
 
+# ⚠️ This Library is No Longer Maintained Here
+
+This library is now maintained by **[FinochioM](https://github.com/FinochioM)**
+
+Please check out the latest version **[here](https://github.com/FinochioM/Makis_ECS)**
+
 ## Features
 
 - **Entity Management:** Create, delete, and manage entities effortlessly.
